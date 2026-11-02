@@ -42,8 +42,13 @@ tell you that your shoulders are up by your ears.
 
 ## Supported watches
 
-fēnix 6, 6S, 6 Pro, 6S Pro and 6X Pro; fēnix 7, 7S, 7X, 7 Pro, 7S Pro and 7X Pro; fēnix 8 (43 mm and 47 mm);
-and Forerunner 970. The full list is in [`manifest.xml`](manifest.xml).
+fēnix 6, 6S, 6 Pro, 6S Pro and 6X Pro; fēnix 7, 7S, 7X, 7 Pro, 7S Pro and 7X Pro; fēnix 8 (43 mm, 47 mm / 51 mm,
+Pro and Solar); fēnix 9 (43 mm, 47 mm / 51 mm, Pro and Pro Solar); fēnix E; epix (Gen 2) and epix Pro (Gen 2);
+Forerunner 165, 170, 255, 255S, 265, 265S, 570, 955, 965 and 970 (including Music variants); Enduro 3 and 4;
+and MARQ Gen 2 and Gen 3. The full list is in [`manifest.xml`](manifest.xml).
+
+The newer models (fēnix 8 Pro/Solar, fēnix 9, fēnix E, epix, Forerunner 165/170/255/265/570/955/965, Enduro and
+MARQ) build without errors but have not been tested on a real watch.
 
 ## Building it
 
