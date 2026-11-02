@@ -106,6 +106,20 @@ Programs live in [`resources/programs/programs.json`](resources/programs/program
 Edit the file, run `just check`, then rebuild. Everything is described in
 [`docs/program-format.md`](docs/program-format.md).
 
+### Plan editor (browser)
+
+[`web/`](web/) is a client-side editor for `programs.json`. From the project root:
+
+```sh
+python3 -m http.server
+# open http://localhost:8000/web/
+```
+
+It starts with the plans in `resources/programs/programs.json` (the 8-week beginner plan, and any plan added
+there later), lets you edit, add and preview plans, and downloads a new `programs.json`. Save that over
+`resources/programs/programs.json`, run `just check` and rebuild. Edits are kept in the browser's local storage;
+nothing is uploaded. The editor has its own copy of the validation, mirroring `scripts/check_programs.py`.
+
 ## Project layout
 
 ```
@@ -113,6 +127,7 @@ manifest.xml            app ID, version, devices, permissions
 source/                 Monkey C code: menus, timer, workout screen
 resources/programs/     the training programs (JSON)
 scripts/                program file validator
+web/                    browser editor for the programs (static files)
 docs/                   the program format
 justfile                build, run, export
 ```
