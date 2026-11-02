@@ -1,4 +1,7 @@
 #!/usr/bin/env python3
+# CRIMP, a hangboard timer for Garmin watches
+# Copyright (C) 2026 Jan-Frode Myklebust
+# SPDX-License-Identifier: GPL-3.0-or-later
 """Validate resources/programs/programs.json and optionally print the expanded steps.
 
 Usage:
