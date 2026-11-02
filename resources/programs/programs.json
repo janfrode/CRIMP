@@ -7,6 +7,7 @@
       "programs": [
         {
           "name": "Week 1",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 3 sets of 4 hangs: 10 s hang, 30 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 3,
@@ -25,6 +26,7 @@
         },
         {
           "name": "Week 2",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 4 sets of 4 hangs: 10 s hang, 30 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 4,
@@ -43,6 +45,7 @@
         },
         {
           "name": "Week 3",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 4 sets of 4 hangs: 10 s hang, 30 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 4,
@@ -61,6 +64,7 @@
         },
         {
           "name": "Week 4",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 5 sets of 4 hangs: 10 s hang, 30 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 5,
@@ -79,6 +83,7 @@
         },
         {
           "name": "Week 5",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 3 sets of 4 hangs: 10 s hang, 20 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 3,
@@ -97,6 +102,7 @@
         },
         {
           "name": "Week 6",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 4 sets of 4 hangs: 10 s hang, 20 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 4,
@@ -115,6 +121,7 @@
         },
         {
           "name": "Week 7",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 4 sets of 4 hangs: 10 s hang, 20 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 4,
@@ -133,6 +140,7 @@
         },
         {
           "name": "Week 8",
+          "description": "Pick holds you can hang 10 s with good form but fail by 14-15 s. Warm up first. 5 sets of 4 hangs: 10 s hang, 20 s rest. 2 min rest between sets.",
           "steps": [
             {
               "repeat": 5,
@@ -152,10 +160,11 @@
       ]
     },
     {
-      "name": "Mike Boyd routines",
+      "name": "Mike Boyd repeaters",
       "programs": [
         {
           "name": "7/3 repeaters, once per grip type",
+          "description": "7 s hang, 3 s rest, 5 reps per set. 4 sets with 3 min rest between sets. Run it once for each grip type.",
           "steps": [
             {
               "repeat": 4,
@@ -170,6 +179,45 @@
               ],
               "between": [ { "type": "rest", "sec": 180, "label": "SET REST" } ]
             }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "McLeod",
+      "source": "mcleod.txt. Before: full body warm-up; finger prep 2-4 min (tendon glides, no hangs); shoulder prep 2-4 min (scap retractions, band work). Sets 1-2 warm-up and 6-7 cool-down on a jug, sets 3-5 on a 20mm edge. Pull-up sets: goal 5 pull ups per 10 s hang.",
+      "programs": [
+        {
+          "name": "McLeod",
+          "description": "Warm up first: full body, finger prep 2-4 min (tendon glides, no hangs), shoulder prep 2-4 min (scap retractions, band work). Sets 1-2 are warm-up on a jug: hangs, then pull-up hangs (goal 5 pull ups each). Sets 3-5 are work on a 20 mm edge: open crimp, half crimp, three finger open drag. Sets 6-7 are cool-down on a jug.",
+          "steps": [
+            { "repeat": 7, "name": "Rep",
+              "do": [ { "type": "hang", "sec": 10, "label": "JUG HANG" } ],
+              "between": [ { "type": "rest", "sec": 30 } ] },
+            { "type": "rest", "sec": 60, "label": "SET REST" },
+            { "repeat": 2, "name": "Rep",
+              "do": [ { "type": "hang", "sec": 10, "label": "PULL UPS" } ],
+              "between": [ { "type": "rest", "sec": 60 } ] },
+            { "type": "rest", "sec": 120, "label": "SET REST" },
+            { "repeat": 3, "name": "Rep",
+              "do": [ { "type": "hang", "sec": 10, "label": "OPEN CRIMP" } ],
+              "between": [ { "type": "rest", "sec": 60 } ] },
+            { "type": "rest", "sec": 60, "label": "SET REST" },
+            { "repeat": 3, "name": "Rep",
+              "do": [ { "type": "hang", "sec": 10, "label": "HALF CRIMP" } ],
+              "between": [ { "type": "rest", "sec": 60 } ] },
+            { "type": "rest", "sec": 60, "label": "SET REST" },
+            { "repeat": 3, "name": "Rep",
+              "do": [ { "type": "hang", "sec": 10, "label": "3F OPEN DRAG" } ],
+              "between": [ { "type": "rest", "sec": 60 } ] },
+            { "type": "rest", "sec": 120, "label": "SET REST" },
+            { "repeat": 2, "name": "Rep",
+              "do": [ { "type": "hang", "sec": 10, "label": "PULL UPS" } ],
+              "between": [ { "type": "rest", "sec": 60 } ] },
+            { "type": "rest", "sec": 60, "label": "SET REST" },
+            { "repeat": 2, "name": "Rep",
+              "do": [ { "type": "hang", "sec": 10, "label": "JUG HANG" } ],
+              "between": [ { "type": "rest", "sec": 60 } ] }
           ]
         }
       ]

@@ -91,7 +91,7 @@ to a friend's phone; it is only for the portal.
 Programs live in [`resources/programs/programs.json`](resources/programs/programs.json), as steps and repeats:
 
 ```json
-{ "name": "Week 1", "steps": [
+{ "name": "Week 1", "description": "10 s hang, 30 s rest, 4 reps per set, 3 sets.", "steps": [
   { "repeat": 3, "name": "Set",
     "do": [
       { "repeat": 4, "name": "Rep",
@@ -103,6 +103,7 @@ Programs live in [`resources/programs/programs.json`](resources/programs/program
 ```
 
 `between` runs between repetitions, never after the last one, so you do not wait for a rest nobody needs.
+Every program needs a `description`: it is the first screen on the watch, and START begins the workout.
 Edit the file, run `just check`, then rebuild. Everything is described in
 [`docs/program-format.md`](docs/program-format.md).
 

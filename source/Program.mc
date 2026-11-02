@@ -26,10 +26,12 @@ class Counter {
 // One hangboard workout, flattened to a list of timed steps.
 class Program {
     var name as String;
+    var description as String;
     var steps as Array<WorkoutStep>;
 
-    function initialize(name as String, steps as Array<WorkoutStep>) {
+    function initialize(name as String, description as String, steps as Array<WorkoutStep>) {
         self.name = name;
+        self.description = description;
         self.steps = steps;
     }
 
@@ -73,7 +75,7 @@ module Programs {
                 var prog = programList[p] as Dictionary;
                 var steps = [] as Array<WorkoutStep>;
                 expand(prog["steps"] as Array, [] as Array<Counter>, steps);
-                programs.add(new Program(prog["name"] as String, steps));
+                programs.add(new Program(prog["name"] as String, prog["description"] as String, steps));
             }
             result.add(new ProgramFolder(folder["name"] as String, programs));
         }

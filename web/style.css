@@ -63,7 +63,8 @@ input[type=text], input[type=number], select {
   background: #fff;
 }
 input[type=number] { width: 72px; }
-input[type=text].wide { width: 100%; }
+input[type=text].wide, textarea.wide { width: 100%; }
+textarea { font: inherit; padding: 4px 6px; border: 1px solid var(--border); border-radius: 4px; resize: vertical; }
 
 #status {
   margin: 0;

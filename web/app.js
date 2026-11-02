@@ -55,7 +55,7 @@ function defaultSteps() {
 }
 
 function newState() {
-  return { format: 1, folders: [{ name: "My plans", programs: [{ name: "Week 1", steps: defaultSteps() }] }] };
+  return { format: 1, folders: [{ name: "My plans", programs: [{ name: "Week 1", description: "10 s hang, 30 s rest, 4 reps per set, 3 sets, 2 min set rest.", steps: defaultSteps() }] }] };
 }
 
 // Work in progress kept in this browser, or null when there is none.
@@ -65,7 +65,7 @@ function loadSaved() {
     if (raw) {
       const d = JSON.parse(raw);
       const ok = isObj(d) && Array.isArray(d.folders) && d.folders.length && d.folders.every(
-        f => isObj(f) && Array.isArray(f.programs) && f.programs.every(p => isObj(p) && Array.isArray(p.steps)));
+        f => isObj(f) && Array.isArray(f.programs) && f.programs.every(p => isObj(p) && Array.isArray(p.steps) && typeof p.description === "string"));
       if (ok) return d;
     }
   } catch (e) { /* storage unavailable or corrupt: ignore */ }
@@ -164,7 +164,7 @@ function clean(data) {
     folders: data.folders.map(f => {
       const o = { name: f.name };
       if (nonEmptyStr(f.source)) o.source = f.source;
-      o.programs = f.programs.map(p => ({ name: p.name, steps: cleanNodes(p.steps) }));
+      o.programs = f.programs.map(p => ({ name: p.name, description: p.description, steps: cleanNodes(p.steps) }));
       return o;
     }),
   };
@@ -216,6 +216,7 @@ function validate(data) {
       if (!isObj(prog)) { errs.push(`${fw}: program ${p + 1} must be an object`); return; }
       const pw = nonEmptyStr(prog.name) ? prog.name : `program ${p + 1}`;
       if (!nonEmptyStr(prog.name)) errs.push(`${fw} › ${pw}: needs a name`);
+      if (!nonEmptyStr(prog.description)) errs.push(`${fw} › ${pw}: needs a description`);
       checkNodes(prog.steps, `${fw} › ${pw}`, 0, errs);
     });
   });
@@ -387,14 +388,14 @@ function renderSidebar() {
 }
 
 function addFolder() {
-  state.folders.push({ name: "New folder", programs: [{ name: "New program", steps: defaultSteps() }] });
+  state.folders.push({ name: "New folder", programs: [{ name: "New program", description: "Describe this program.", steps: defaultSteps() }] });
   sel = { f: state.folders.length - 1, p: 0 };
   renderAll();
 }
 
 function addProgram(f) {
   const progs = state.folders[f].programs;
-  progs.push({ name: "New program", steps: defaultSteps() });
+  progs.push({ name: "New program", description: "Describe this program.", steps: defaultSteps() });
   sel = { f, p: progs.length - 1 };
   renderAll();
 }
@@ -452,9 +453,21 @@ function programEditor(folder, prog) {
         renderAll();
       }, "danger")),
     h("p", { class: "hint" }, "The program name is also the Garmin activity name, so keep it short. A 10 s get-ready countdown is added automatically."),
+    h("h3", {}, "Description"),
+    descriptionInput(prog),
+    h("p", { class: "hint" }, "Shown as the first screen on the watch, before the countdown. A few sentences; it scrolls if long."),
     generator(prog),
     h("h3", {}, "Steps"),
     nodeList(prog.steps, 0));
+}
+
+function descriptionInput(prog) {
+  const t = h("textarea", {
+    rows: 4, class: "wide", placeholder: "What is this session? How should you prepare?",
+    oninput: () => { prog.description = t.value; update(); },
+  });
+  t.value = prog.description ?? "";
+  return t;
 }
 
 function generator(prog) {

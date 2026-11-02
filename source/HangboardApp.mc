@@ -37,14 +37,22 @@ class HangboardApp extends Application.AppBase {
         var menu = new WatchUi.Menu2({:title => new AppTitle()});
         var folders = Programs.folders();
         for (var i = 0; i < folders.size(); i++) {
-            var count = folders[i].programs.size();
-            menu.addItem(new WatchUi.MenuItem(folders[i].name, count + " programs", i, {}));
+            var programs = folders[i].programs;
+            // A folder with one program starts it directly, so show what it runs.
+            var sub = (programs.size() == 1) ? programs[0].summary() : programs.size() + " programs";
+            menu.addItem(new WatchUi.MenuItem(folders[i].name, sub, i, {}));
         }
         return [menu, new FolderMenuDelegate()];
     }
 }
 
-// Top-level menu: pick a folder.
+// Open a program on its description screen; the workout starts from there.
+function startProgram(program as Program) as Void {
+    var view = new DescriptionView(program);
+    WatchUi.pushView(view, new DescriptionDelegate(view), WatchUi.SLIDE_LEFT);
+}
+
+// Top-level menu: pick a folder. A folder with a single program skips the second menu.
 class FolderMenuDelegate extends WatchUi.Menu2InputDelegate {
     function initialize() {
         Menu2InputDelegate.initialize();
@@ -52,6 +60,10 @@ class FolderMenuDelegate extends WatchUi.Menu2InputDelegate {
 
     function onSelect(item as WatchUi.MenuItem) as Void {
         var folder = Programs.folders()[item.getId() as Number];
+        if (folder.programs.size() == 1) {
+            startProgram(folder.programs[0]);
+            return;
+        }
         var menu = new WatchUi.Menu2({:title => folder.name});
         for (var i = 0; i < folder.programs.size(); i++) {
             menu.addItem(new WatchUi.MenuItem(folder.programs[i].name, folder.programs[i].summary(), i, {}));
@@ -70,9 +82,6 @@ class ProgramMenuDelegate extends WatchUi.Menu2InputDelegate {
     }
 
     function onSelect(item as WatchUi.MenuItem) as Void {
-        var program = _folder.programs[item.getId() as Number];
-        var runner = new WorkoutRunner(program);
-        runner.start();
-        WatchUi.pushView(new WorkoutView(runner), new WorkoutDelegate(runner), WatchUi.SLIDE_LEFT);
+        startProgram(_folder.programs[item.getId() as Number]);
     }
 }

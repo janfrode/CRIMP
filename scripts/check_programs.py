@@ -113,6 +113,8 @@ def main(argv):
                 pw = f"{fw}.programs[{p}]"
                 if not isinstance(prog.get("name"), str) or not prog["name"]:
                     raise FormatError(f"{pw}.name: required string")
+                if not isinstance(prog.get("description"), str) or not prog["description"]:
+                    raise FormatError(f"{pw}.description: required string")
                 check_nodes(prog.get("steps"), f"{pw}.steps")
     except FormatError as e:
         print(f"programs.json: {e}", file=sys.stderr)

@@ -8,11 +8,15 @@ They are compiled into the app, so after editing the file, rebuild and reinstall
 ```
 file     { "format": 1, "folders": [ folder, ... ] }
 folder   { "name": "...", "source": "...", "programs": [ program, ... ] }
-program  { "name": "...", "steps": [ node, ... ] }
+program  { "name": "...", "description": "...", "steps": [ node, ... ] }
 node     step | repeat
 ```
 
 `source` is an optional note for humans; the app ignores it.
+
+`description` is required. It is the first screen when a program is opened on the watch (what the session is,
+how to prepare), shown before the get-ready countdown. Keep it to a few sentences; it is word-wrapped and
+scrolls with UP/DOWN when it does not fit.
 
 ### step
 
@@ -48,6 +52,7 @@ A 10-second get-ready countdown is added before every program automatically.
 ```json
 {
   "name": "Week 1",
+  "description": "10 s hang, 30 s rest, 4 reps per set, 3 sets, 2 min set rest.",
   "steps": [
     {
       "repeat": 3, "name": "Set",
@@ -65,7 +70,7 @@ A 10-second get-ready countdown is added before every program automatically.
 Steps do not have to sit inside a repeat. A max-hang program with different loads could be a plain list:
 
 ```json
-{ "name": "Max hangs", "steps": [
+{ "name": "Max hangs", "description": "Three max hangs with long rests.", "steps": [
     { "type": "hang", "sec": 10 }, { "type": "rest", "sec": 180 },
     { "type": "hang", "sec": 10 }
 ] }
