@@ -1,2 +1,4 @@
 bin/
 developer_key
+private_key.der
+private_key.pem
