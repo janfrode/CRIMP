@@ -1,0 +1,123 @@
+{
+  "format": 1,
+  "folders": [
+    {
+      "name": "Beginner 8-Week",
+      "source": "99Boulders: Hangboard Training for Beginners, A Simple 8-Week Workout",
+      "programs": [
+        {
+          "name": "Week 1",
+          "steps": [
+            {
+              "repeat": 3, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 30 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        },
+        {
+          "name": "Week 2",
+          "steps": [
+            {
+              "repeat": 4, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 30 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        },
+        {
+          "name": "Week 3",
+          "steps": [
+            {
+              "repeat": 4, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 30 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        },
+        {
+          "name": "Week 4",
+          "steps": [
+            {
+              "repeat": 5, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 30 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        },
+        {
+          "name": "Week 5",
+          "steps": [
+            {
+              "repeat": 3, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 20 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        },
+        {
+          "name": "Week 6",
+          "steps": [
+            {
+              "repeat": 4, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 20 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        },
+        {
+          "name": "Week 7",
+          "steps": [
+            {
+              "repeat": 4, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 20 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        },
+        {
+          "name": "Week 8",
+          "steps": [
+            {
+              "repeat": 5, "name": "Set",
+              "do": [
+                { "repeat": 4, "name": "Rep",
+                  "do": [ { "type": "hang", "sec": 10 } ],
+                  "between": [ { "type": "rest", "sec": 20 } ] }
+              ],
+              "between": [ { "type": "rest", "sec": 120, "label": "SET REST" } ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
