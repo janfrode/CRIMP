@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<!--
+  CRIMP, a hangboard timer for Garmin watches
+  Copyright (C) 2026 Jan-Frode Myklebust
+  SPDX-License-Identifier: GPL-3.0-or-later
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRIMP plan editor</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>CRIMP plan editor</h1>
+    <div class="actions">
+      <button id="btn-builtin" type="button">Built-in plans</button>
+      <button id="btn-new" type="button">New</button>
+      <button id="btn-open" type="button">Open…</button>
+      <input id="file-open" type="file" accept=".json,application/json" hidden>
+      <button id="btn-download" type="button" class="primary">Download programs.json</button>
+    </div>
+  </header>
+
+  <div id="status" role="status"></div>
+
+  <main>
+    <nav id="sidebar" aria-label="Folders and programs"></nav>
+    <section id="editor" aria-label="Editor"></section>
+    <aside id="preview" aria-label="Preview"></aside>
+  </main>
+
+  <footer>
+    Starts with the plans in <code>resources/programs/programs.json</code> (locally: serve the project root, e.g.
+    <code>python3 -m http.server</code>, and open <code>/web/editor/</code>).
+    Everything runs in your browser; nothing is uploaded. Your work is kept in this browser's local storage.
+    To use your changes, save the downloaded file over <code>resources/programs/programs.json</code>, run <code>just check</code>, then rebuild.
+    Format: <code>docs/program-format.md</code>.
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

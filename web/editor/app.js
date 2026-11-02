@@ -12,9 +12,10 @@
 
 const STORAGE_KEY = "crimp-plans";
 const BASE_KEY = "crimp-plans-base";   // the built-in plans (as JSON text) that STORAGE_KEY started from
-// The plans compiled into the watch app. Resolves when the server root is the repo root
-// (python3 -m http.server from the project directory, then open /web/).
-const BUILTIN_URL = "../resources/programs/programs.json";
+// The plans compiled into the watch app. Published sites have programs.json next to the editor
+// (copied by `just publish` in web/). Locally it resolves when the server root is the repo root
+// (python3 -m http.server from the project directory, then open /web/editor/).
+const BUILTIN_URLS = ["programs.json", "../../resources/programs/programs.json"];
 const TYPES = ["hang", "rest"];
 const MAX_DEPTH = 4;
 const PREP_SEC = 10;
@@ -74,7 +75,12 @@ function loadSaved() {
 
 // Fetch and validate resources/programs/programs.json. Throws on failure.
 async function fetchBuiltin() {
-  const res = await fetch(BUILTIN_URL, { cache: "no-store" });
+  let res = null;
+  for (const url of BUILTIN_URLS) {
+    try { res = await fetch(url, { cache: "no-store" }); } catch (e) { res = null; }
+    if (res && res.ok) break;
+  }
+  if (!res) throw new Error("network error");
   if (!res.ok) throw new Error(`HTTP ${res.status}`);
   const data = await res.json();
   const errs = validate(data);
@@ -83,7 +89,7 @@ async function fetchBuiltin() {
 }
 
 function failedBuiltin(e) {
-  return `Could not load the built-in plans (${e.message}). Run "python3 -m http.server" from the project root and open /web/.`;
+  return `Could not load the built-in plans (${e.message}). Run "python3 -m http.server" from the project root and open /web/editor/.`;
 }
 
 function useBuiltin(data) {

@@ -6,39 +6,393 @@
 -->
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CRIMP plan editor</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CRIMP — Hangboard Timer for Garmin Watches</title>
+  <meta name="description" content="CRIMP is a free, open source hangboard timer for Garmin fēnix and Forerunner watches. Countdowns, beeps, buzz, and a recorded Strength activity." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0d1117;
+      --surface:   #161b22;
+      --border:    #30363d;
+      --text:      #e6edf3;
+      --muted:     #8b949e;
+      --accent:    #58a6ff;
+      --accent2:   #3fb950;
+      --radius:    10px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.65;
+    }
+
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    /* ── layout ── */
+    .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+
+    /* ── hero ── */
+    .hero {
+      padding: 72px 24px 40px;
+      text-align: center;
+    }
+    .hero h1 {
+      font-size: 2.8rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero .backronym {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .hero .backronym strong { color: var(--text); }
+    .hero p.tagline {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 560px;
+      margin: 0 auto 32px;
+    }
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      background: var(--accent);
+      color: #0d1117;
+      font-weight: 600;
+      font-size: 0.95rem;
+      border-radius: 8px;
+    }
+    .btn:hover { text-decoration: none; opacity: 0.88; }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border: 1px solid var(--border);
+      margin-left: 10px;
+    }
+    .hero-note {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+
+    /* ── screenshot ── */
+    .screenshots {
+      padding: 0 24px 64px;
+      display: flex;
+      justify-content: center;
+    }
+    .screenshots img {
+      width: 320px;
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* ── section headings ── */
+    section { padding: 48px 24px; }
+    section + section { border-top: 1px solid var(--border); }
+    h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      letter-spacing: -0.01em;
+    }
+    section > p { color: var(--muted); font-size: 0.92rem; margin-bottom: 16px; }
+
+    /* ── feature grid ── */
+    .features {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+    .feature {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 20px;
+    }
+    .feature h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 6px; }
+    .feature p  { font-size: 0.87rem; color: var(--muted); line-height: 1.55; }
+
+    /* ── plans table ── */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      font-size: 0.9rem;
+      margin-bottom: 20px;
+    }
+    th, td { padding: 9px 16px; text-align: left; }
+    th { color: var(--muted); font-weight: 600; font-size: 0.82rem; border-bottom: 1px solid var(--border); }
+    tr + tr td { border-top: 1px solid var(--border); }
+    td { color: var(--muted); }
+    td:first-child { color: var(--text); }
+
+    .plans { display: flex; flex-direction: column; gap: 12px; }
+    .plan {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+    }
+    .plan h3 { font-size: 0.95rem; font-weight: 600; }
+    .plan p  { font-size: 0.87rem; color: var(--muted); margin-top: 2px; }
+
+    /* ── install steps ── */
+    .steps { counter-reset: step; display: flex; flex-direction: column; gap: 14px; }
+    .step  {
+      display: flex; gap: 16px; align-items: flex-start;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+    }
+    .step::before {
+      counter-increment: step;
+      content: counter(step);
+      flex-shrink: 0;
+      width: 28px; height: 28px;
+      background: var(--accent);
+      color: #0d1117;
+      font-weight: 700; font-size: 0.85rem;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .step p  { font-size: 0.9rem; color: var(--muted); margin-top: 4px; }
+    .step h3 { font-size: 0.95rem; font-weight: 600; }
+
+    code {
+      font-family: ui-monospace, "SFMono-Regular", Menlo, monospace;
+      font-size: 0.85em;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1px 6px;
+    }
+    .notice {
+      margin-top: 14px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      font-size: 0.87rem;
+      color: var(--muted);
+    }
+    .notice strong { color: var(--text); }
+
+    .devices { font-size: 0.9rem; color: var(--muted); }
+    .devices strong { color: var(--text); }
+
+    /* ── coffee ── */
+    .coffee {
+      text-align: center;
+      padding: 40px 24px;
+      border-top: 1px solid var(--border);
+    }
+    .coffee p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .btn-coffee {
+      display: inline-block;
+      padding: 10px 22px;
+      background: #ffdd00;
+      color: #1a1a1a;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+    .btn-coffee:hover { text-decoration: none; opacity: 0.88; }
+
+    /* ── footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 28px 24px;
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    footer a { color: var(--muted); }
+    footer a:hover { color: var(--text); }
+    footer .author { margin-bottom: 8px; }
+  </style>
 </head>
 <body>
-  <header>
-    <h1>CRIMP plan editor</h1>
-    <div class="actions">
-      <button id="btn-builtin" type="button">Built-in plans</button>
-      <button id="btn-new" type="button">New</button>
-      <button id="btn-open" type="button">Open…</button>
-      <input id="file-open" type="file" accept=".json,application/json" hidden>
-      <button id="btn-download" type="button" class="primary">Download programs.json</button>
+
+<!-- ── Hero ─────────────────────────────────────────────────────────── -->
+<div class="hero wrap">
+  <h1>CR<span>I</span>MP</h1>
+  <p class="backronym"><strong>C</strong>RIMP <strong>R</strong>arely <strong>I</strong>njures <strong>M</strong>y <strong>P</strong>ulleys</p>
+  <p class="tagline">A hangboard timer for your Garmin watch. Hang when it says hang, rest when it says rest, and let the watch do the counting.</p>
+  <div>
+    <a class="btn" href="#install">Get CRIMP</a>
+    <a class="btn btn-secondary" href="https://github.com/janfrode/CRIMP">View on GitHub</a>
+  </div>
+  <p class="hero-note">Free &amp; open source &nbsp;·&nbsp; fēnix 6, 7, 8 &amp; Forerunner 970 &nbsp;·&nbsp; GPL-3.0-or-later</p>
+</div>
+
+<!-- ── Screenshot ───────────────────────────────────────────────────── -->
+<div class="screenshots wrap">
+  <img src="CRIMP.png" alt="CRIMP on a Garmin fēnix 8: the main menu with the Beginner 8-Week folder" />
+</div>
+
+<!-- ── Features ─────────────────────────────────────────────────────── -->
+<section class="wrap">
+  <h2>Features</h2>
+  <div class="features">
+    <div class="feature">
+      <h3>Big countdowns</h3>
+      <p>A large number for every hang and rest, readable from a dead hang.</p>
     </div>
-  </header>
+    <div class="feature">
+      <h3>Eyes-free alerts</h3>
+      <p>A beep and a buzz on every change, plus a tick for each of the last three seconds. Your eyes are busy being on the board.</p>
+    </div>
+    <div class="feature">
+      <h3>Plans built in</h3>
+      <p>The 8-week beginner plan, a 7/3 repeaters routine and a McLeod session are ready to go, organised in folders.</p>
+    </div>
+    <div class="feature">
+      <h3>Programs are data</h3>
+      <p>Plans are described in a JSON file with steps and repeats. Add your own without writing any code.</p>
+    </div>
+    <div class="feature">
+      <h3>Pause, skip, quit</h3>
+      <p>START pauses, UP and DOWN skip steps, and BACK asks before quitting, so a stray press does not end your session.</p>
+    </div>
+    <div class="feature">
+      <h3>Records an activity</h3>
+      <p>Each session is saved as a Strength activity with a lap for every hang. Heart rate and training time end up in Garmin Connect.</p>
+    </div>
+    <div class="feature">
+      <h3>Read before you start</h3>
+      <p>Every plan opens with a description screen. Nothing is started or recorded until you press START.</p>
+    </div>
+    <div class="feature">
+      <h3>Browser plan editor</h3>
+      <p>Edit, add and preview plans in a client-side editor, then download a new <code>programs.json</code>. Nothing is uploaded.</p>
+    </div>
+  </div>
+</section>
 
-  <div id="status" role="status"></div>
+<!-- ── Plans ─────────────────────────────────────────────────────────── -->
+<section class="wrap">
+  <h2>Built-in plans</h2>
+  <p>The <strong>Beginner 8-Week</strong> folder follows the plan from
+    <a href="https://www.99boulders.com/beginner-hangboard-training">99Boulders</a>. Each week is 10-second hangs,
+    4 reps per set, and 2 minutes between sets.</p>
+  <table>
+    <thead><tr><th>Week</th><th>Sets</th><th>Rest between reps</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>3</td><td>30 s</td></tr>
+      <tr><td>2, 3</td><td>4</td><td>30 s</td></tr>
+      <tr><td>4</td><td>5</td><td>30 s</td></tr>
+      <tr><td>5</td><td>3</td><td>20 s</td></tr>
+      <tr><td>6, 7</td><td>4</td><td>20 s</td></tr>
+      <tr><td>8</td><td>5</td><td>20 s</td></tr>
+    </tbody>
+  </table>
+  <div class="plans">
+    <div class="plan">
+      <h3>Mike Boyd repeaters</h3>
+      <p>7 s hang, 3 s rest, 5 reps per set, 4 sets with 3 min rest between sets. Run it once for each grip type.</p>
+    </div>
+    <div class="plan">
+      <h3>McLeod</h3>
+      <p>A full session with jug warm-up, work sets on a 20 mm edge (open crimp, half crimp, three finger open drag) and a cool-down.</p>
+    </div>
+  </div>
+  <div class="notice">
+    <strong>Train safely:</strong> warm up properly and use good form. A hangboard timer cannot tell you that your
+    shoulders are up by your ears.
+  </div>
+</section>
 
-  <main>
-    <nav id="sidebar" aria-label="Folders and programs"></nav>
-    <section id="editor" aria-label="Editor"></section>
-    <aside id="preview" aria-label="Preview"></aside>
-  </main>
+<!-- ── Devices ───────────────────────────────────────────────────────── -->
+<section class="wrap">
+  <h2>Supported watches</h2>
+  <p class="devices">
+    <strong>fēnix 6:</strong> 6, 6S, 6 Pro, 6S Pro, 6X Pro<br />
+    <strong>fēnix 7:</strong> 7, 7S, 7X, 7 Pro, 7S Pro, 7X Pro<br />
+    <strong>fēnix 8:</strong> 43 mm, 47 mm<br />
+    <strong>Forerunner:</strong> 970
+  </p>
+</section>
 
-  <footer>
-    Starts with the plans in <code>resources/programs/programs.json</code> (serve the project root, e.g.
-    <code>python3 -m http.server</code>, and open <code>/web/</code>).
-    Everything runs in your browser; nothing is uploaded. Your work is kept in this browser's local storage.
-    To use your changes, save the downloaded file over <code>resources/programs/programs.json</code>, run <code>just check</code>, then rebuild.
-    Format: <code>docs/program-format.md</code>.
-  </footer>
+<!-- ── Install ───────────────────────────────────────────────────────── -->
+<section class="wrap" id="install">
+  <h2>Installation</h2>
+  <div class="steps">
+    <div class="step">
+      <div>
+        <h3>Build for your model</h3>
+        <p>Follow the <a href="https://github.com/janfrode/CRIMP#building-it">build instructions</a> and run
+          <code>just build fenix7s</code> (use your own model). A file built for another model will not run.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h3>Connect the watch by USB</h3>
+        <p>Copy <code>bin/&lt;model&gt;.prg</code> into the <code>GARMIN/Apps/</code> folder on the watch.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div>
+        <h3>Start hanging</h3>
+        <p>Eject the watch, open CRIMP from the app list, pick a plan, and press START.</p>
+      </div>
+    </div>
+  </div>
 
-  <script src="app.js"></script>
+  <div class="notice">
+    <strong>Early days:</strong> CRIMP is mostly tested in the simulator. The beeps, the vibration and the activity
+    recording have not been checked on every real watch yet. If something misbehaves on yours, please
+    <a href="https://github.com/janfrode/CRIMP/issues">open an issue</a>.
+  </div>
+</section>
+
+<!-- ── Your own plans ────────────────────────────────────────────────── -->
+<section class="wrap">
+  <h2>Add your own plan</h2>
+  <p>Plans are steps and repeats. <code>between</code> runs between repetitions, never after the last one, so you
+    never wait for a rest nobody needs. Every plan needs a <code>description</code>: it is the first screen on the
+    watch. See the <a href="https://github.com/janfrode/CRIMP/blob/main/docs/program-format.md">program format</a>, or
+    use the <a href="editor/">browser plan editor</a>.</p>
+</section>
+
+<!-- ── Buy me a coffee ───────────────────────────────────────────────── -->
+<div class="coffee wrap">
+  <p>CRIMP is free. If it saves your pulleys, a coffee is always appreciated.</p>
+  <a class="btn-coffee" href="https://buymeacoffee.com/janfrode">☕ Buy me a coffee</a>
+</div>
+
+<!-- ── Footer ────────────────────────────────────────────────────────── -->
+<footer>
+  <p class="author">
+    Made by <a href="mailto:janfrode@tanso.net">Jan-Frode Myklebust</a>
+    &nbsp;·&nbsp;
+    <a href="mailto:janfrode@tanso.net">janfrode@tanso.net</a>
+  </p>
+  <p>
+    CRIMP is free software under the
+    <a href="https://www.gnu.org/licenses/gpl-3.0.html">GPL-3.0-or-later</a> —
+    <a href="https://github.com/janfrode/CRIMP">github.com/janfrode/CRIMP</a>
+    &nbsp;·&nbsp;
+    Beginner plan from <a href="https://www.99boulders.com/beginner-hangboard-training">99Boulders</a>
+  </p>
+</footer>
+
 </body>
 </html>

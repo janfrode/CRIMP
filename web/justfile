@@ -1,0 +1,34 @@
+# Publish the CRIMP product page and plan editor. Run `just` to list recipes.
+#
+# Everything under web/ is published as-is, except this justfile. The editor's default plans come from
+# ../resources/programs/programs.json, which is copied next to the editor (editor/programs.json).
+# Override the destination with an environment variable, e.g.:  CRIMP_REMOTE=host:path/ just publish
+# Run as `nix-shell -p just --run 'just publish'` if just is not installed. Commands run in
+# `nix-shell -p python3 rsync` (python3 for the plan check).
+
+set shell := ["nix-shell", "-p", "python3", "rsync", "--run"]
+
+# rsync destination for https://tanso.net/crimp/ (must end in /)
+remote := env_var_or_default("CRIMP_REMOTE", "tanso.net:/srv/www/crimp/")
+
+# List recipes
+default:
+    @just --list --unsorted
+
+# Validate the plans before they are published
+check:
+    python3 ../scripts/check_programs.py
+
+# Upload the page, the editor and programs.json to https://tanso.net/crimp/
+publish: check
+    rsync -av --exclude justfile --exclude .DS_Store ./ '{{remote}}'
+    rsync -av ../resources/programs/programs.json '{{remote}}editor/programs.json'
+
+# Show what publish would upload, without uploading anything
+publish-dry: check
+    rsync -avn --exclude justfile --exclude .DS_Store ./ '{{remote}}'
+    rsync -avn ../resources/programs/programs.json '{{remote}}editor/programs.json'
+
+# Serve the page and editor locally at http://localhost:8000/web/ (server root is the repo root)
+serve:
+    cd .. && python3 -m http.server 8000 --bind 127.0.0.1

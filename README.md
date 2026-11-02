@@ -3,7 +3,7 @@
 > **C**RIMP **R**arely **I**njures **M**y **P**ulleys
 
 <p align="center">
-  <img src="CRIMP.png" alt="CRIMP on a Garmin fēnix: the main menu with the Beginner 8-Week folder" width="320">
+  <img src="web/CRIMP.png" alt="CRIMP on a Garmin fēnix: the main menu with the Beginner 8-Week folder" width="320">
 </p>
 
 A hangboard timer for Garmin watches. Pick a week, hang when it says hang, rest when it says rest,
@@ -109,17 +109,23 @@ Edit the file, run `just check`, then rebuild. Everything is described in
 
 ### Plan editor (browser)
 
-[`web/`](web/) is a client-side editor for `programs.json`. From the project root:
+[`web/editor/`](web/editor/) is a client-side editor for `programs.json`. From the project root:
 
 ```sh
 python3 -m http.server
-# open http://localhost:8000/web/
+# open http://localhost:8000/web/editor/
 ```
 
 It starts with the plans in `resources/programs/programs.json` (the 8-week beginner plan, and any plan added
 there later), lets you edit, add and preview plans, and downloads a new `programs.json`. Save that over
 `resources/programs/programs.json`, run `just check` and rebuild. Edits are kept in the browser's local storage;
 nothing is uploaded. The editor has its own copy of the validation, mirroring `scripts/check_programs.py`.
+
+### Product page
+
+[`web/`](web/) is the product page (`index.html`) plus the editor, published at https://tanso.net/crimp/.
+`just publish` in `web/` checks the plans and rsyncs `web/` and `resources/programs/programs.json` to the server
+(`CRIMP_REMOTE` overrides the destination, `just publish-dry` shows what would be uploaded).
 
 ## Project layout
 
@@ -128,7 +134,7 @@ manifest.xml            app ID, version, devices, permissions
 source/                 Monkey C code: menus, timer, workout screen
 resources/programs/     the training programs (JSON)
 scripts/                program file validator
-web/                    browser editor for the programs (static files)
+web/                    product page and, in web/editor/, the browser editor for the programs (static files)
 docs/                   the program format
 justfile                build, run, export
 ```
