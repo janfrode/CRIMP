@@ -2,6 +2,10 @@
 
 > **C**RIMP **R**arely **I**njures **M**y **P**ulleys
 
+<p align="center">
+  <img src="CRIMP.png" alt="CRIMP on a Garmin fēnix: the main menu with the Beginner 8-Week folder" width="320">
+</p>
+
 A hangboard timer for Garmin watches. Pick a week, hang when it says hang, rest when it says rest,
 and let your watch do the counting so you can concentrate on not letting go.
 
